@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Pierre Movies!</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="src/style.css">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="shortcut icon" href="src/favicon.ico" type="image/x-icon"/>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+  <script src="src/js/enregistrer-sw.js"></script>
+  <script src="src/js/librairie/idb.js"></script>
+  <script src="src/js/services/films-services.js"></script>
+  <script src="src/js/librairie/idb-operations.js"></script>
+  <script src="src/js/vueFilms.js"></script>
+  <script src="src/js/app.js"></script>
+
+
+
+  
+<style>
+  .jumbotron{
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.241), rgba(0, 0, 0, 0.276)), url(src/img/blade-runner-poster.jpg);
+  }
+</style>
+
+</head>
+<body onload="listeFilms('fetch')"> 
+ 
+
+    <div class="modal" id="mymodal">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header text-center">
+              <h4 class="modal-title w-100 font-weight-bold">Se connecter</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body mx-3">
+              <div class="md-form mb-5">
+                <i class="fas fa-envelope prefix grey-text"></i>
+                <input type="email" id="defaultForm-email" class="form-control validate" placeholder="Courriel">
+              </div>
+      
+              <div class="md-form mb-4">
+                <i class="fas fa-lock prefix grey-text"></i>
+                <input type="password" id="defaultForm-pass" class="form-control validate" placeholder="******">                
+              </div>
+      
+            </div>
+            <div class="modal-footer">
+              <button type="button" href="#mymodal2" data-toggle="modal" data-target="#mymodal2" data-dismiss="modal" class="btn btn-primary myFloat_Left">Abonner</button>
+              <button type="button" class="btn btn-indigo float-right" data-dismiss="modal">Enregistrer</button>
+              <button type="button" class="btn btn-indigo float-right" data-dismiss="modal">Fermer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="modal" id="divAjouter">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header text-center">
+              <h4 class="modal-title w-100 font-weight-bold">Ajouter film</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form id="formAjouter">
+            <div class="modal-body mx-3">
+              <div class="md-form mb-5">
+                <i class="fas fa-envelope prefix grey-text"></i>
+                <input type="titre" id="Titre" class="form-control validate" placeholder="Titre">
+              </div>
+      
+              <div class="md-form mb-4">
+                <i class="fas fa-lock prefix grey-text"></i>
+                <input type="realisateur" id="Realisateur" class="form-control validate" placeholder="Réalisateur">                
+              </div>
+
+              <div class="md-form mb-4">
+                <i class="fas fa-lock prefix grey-text"></i>
+                <input type="genre" id="Genre" class="form-control validate" placeholder="Genre">                
+              </div>
+
+              <div class="md-form mb-4">
+                <i class="fas fa-lock prefix grey-text"></i>
+                <input type="duree" id="Duree" class="form-control validate" placeholder="Duree">                
+              </div>
+      
+            </div>
+            <div class="modal-footer">
+              <button type="button" href="#divAjouter" data-toggle="modal" data-target="#divAjouter" data-dismiss="modal" class="btn btn-primary myFloat_Left">Abonner</button>
+              <button type="submit" class="btn btn-indigo float-right" data-dismiss="modal">Envoyer</button>
+              <button type="button" class="btn btn-indigo float-right" data-dismiss="modal">Fermer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+      <span id="msg" style="color:white; font: size 16;"></span>
+  </div>
+      </div>
+
+
+
+
+
+
+    
+      <div class="modal" id="mymodal2">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header text-center">
+            <h4 class="modal-title w-100 font-weight-bold">Abonner</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body mx-3">
+    
+            <div class="md-form mb-4">
+              <i class="fas fa-user prefix grey-text"></i>
+              <input type="text" id="form3" class="form-control validate">
+              <label data-error="wrong" data-success="right" for="form3">Prénom</label>
+            </div>
+    
+            <div class="md-form mb-4">
+              <i class="fas fa-user prefix grey-text"></i>
+              <input type="text" id="form3" class="form-control validate">
+              <label data-error="wrong" data-success="right" for="form3">Nom</label>
+            </div>
+    
+    
+            <div class="md-form mb-4">
+              <i class="fas fa-envelope prefix grey-text"></i>
+              <input type="email" id="form2" class="form-control validate">
+              <label data-error="wrong" data-success="right" for="form2">Courriel</label>
+            </div>
+    
+            <div class="md-form mb-4">
+              <i class="fas fa-envelope prefix grey-text"></i>
+              <input type="email" id="form2" class="form-control validate">
+              <label data-error="wrong" data-success="right" for="form2">Mot de passe</label>
+            </div>
+    
+            <div class="md-form mb-4">
+              <i class="fas fa-envelope prefix grey-text"></i>
+              <input type="email" id="form2" class="form-control validate">
+              <label data-error="wrong" data-success="right" for="form2">Confirmer mot de passe</label>
+            </div>
+    
+          </div>
+          <div class="modal-footer d-flex justify-content-center">
+            <button class="btn btn-indigo" data-dismiss="modal">Enregistrer<i class="fas fa-paper-plane-o ml-1"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark bg-transparent" style="background:rgba(0,0,0,0.6) !important;">
+        <a class="navbar-brand" href="index.html"><i><strong>Pierre</strong>Movies !</i>
+        </a>
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="navbar-collapse collapse" id="navbarColor01">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="pages/horror.html">Horreur</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pages/action.html">Action</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pages/animation.html">Animation</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#mymodal" data-toggle="modal" data-target="#mymodal">Connectez-vous</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#divAjouter" data-toggle="modal" data-target="#divAjouter">Ajouter</a>
+            </li>
+          </ul>
+          <form class="form-inline">
+            <input class="form-control mr-sm-2" type="search" placeholder="" aria-label="Search">
+            <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Rechercher</button>
+          </form>
+        </div>
+      </nav>
+
+
+
+    
+
+
+
+
+
+
+  <div class="container">
+
+    <div class="jumbotron">
+        <h1 class="display-4">Nouveautés</h1>
+        <p class="lead">Cinéma par des ráalisateurs indépendants, pour des spectateurs libre d'esprit</p>
+        <hr class="my-4">
+        <p></p>
+        <p class="lead">
+          <a class="btn btn-primary custom-btn btn-lg" href="#" role="button" id="register">Plus d'info</a>
+        </p>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div  id="listeFilms">
+   <div class="col-sm-4">
+        <div class="card">
+          <div class="image">
+            <img src="src/img/cornisland.jpg" />
+          </div>
+          <div class="card-inner">
+            <div class="header">
+              <h2>En Vedette</h2>
+          </div>
+          <div class="content">
+            <p>CORN ISLAND</p>
+          </div>
+            </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="image">
+            <img src="src/img/manderlay.jpg" />
+          </div>
+          <div class="card-inner">
+            <div class="header">
+              <h2>En Vedette</h2>
+          </div>
+          <div class="content">
+            <p>MANDERLAY</p>
+          </div>
+            </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="image">
+            <img src="src/img/silvana.jpg" />
+          </div>
+          <div class="card-inner">
+            <div class="header">
+              <h2>En Vedette</h2>
+          </div>
+          <div class="content">
+            <p>SILVANA</p>
+          </div>
+            </div>
+        </div>
+      </div><div class="col-sm-4">
+        <div class="card">
+          <div class="image">
+            <img src="src/img/raw.jpg" />
+          </div>
+          <div class="card-inner">
+            <div class="header">
+              <h2>En Vedette</h2>
+          </div>
+          <div class="content">
+            <p>RAW</p>
+          </div>
+            </div>
+        </div>
+      </div><div class="col-sm-4">
+        <div class="card">
+          <div class="image">
+            <img src="src/img/americanhate.jpg" />
+          </div>
+          <div class="card-inner">
+            <div class="header">
+              <h2>En Vedette</h2>
+          </div>
+          <div class="content">
+            <p>AMERICAN HATE</p>
+          </div>
+            </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="image">
+            <img src="src/img/byoky.png" />
+          </div>
+          <div class="card-inner">
+            <div class="header">
+              <h2>En Vedette</h2>
+          </div>
+          <div class="content">
+            <p>BYOKY</p>
+          </div>
+            </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="image">
+            <img src="src/img/wolfofwallstreet.png" />
+          </div>
+          <div class="card-inner">
+            <div class="header">
+              <h2>En Vedette</h2>
+          </div>
+          <div class="content">
+            <p>WOLF FO WALL STREET</p>
+          </div>
+            </div>
+        </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="image">
+              <img src="src/img/blade runner.jpg" />
+            </div>
+            <div class="card-inner">
+              <div class="header">
+                <h2>En Vedette</h2>
+            </div>
+            <div class="content">
+              <p>BLADE RUNNER</p>
+            </div>
+              </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="image">
+              <img src="src/img/morehuman.jpg" />
+            </div>
+            <div class="card-inner">
+              <div class="header">
+                <h2>En Vedette</h2>
+            </div>
+            <div class="content">
+              <p>MRE HUMAN</p>
+            </div>
+              </div>
+          </div>
+</div>
+      </div>
+
+
+<footer class="page-footer">
+  <div class="container">
+    <button onClick="montrerInstallBanner();" id="install-app" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--
+accent-contrast">Install app</button>
+  </div>
+   <div class="container">
+      <p class="lead">Pierre Costin &copy; | Tous droits réservés</p>
+    </div>
+</footer>
+
+</body>
+</html>
+
